@@ -69,21 +69,22 @@ int main(int argc, char *argv[]) {
     }
   }
       
-  std::ifstream qseq_file;
-  if (optind == argc - 1) {
-    qseq_file.open(argv[optind]);
+  std::istream *qseq_file;
+  if (strcmp(argv[optind], "-") == 0) {
+    std::cerr << "using standard in" << std::endl;;
+    qseq_file = &std::cin;
   } else {
-    usage();
+    qseq_file = new std::ifstream(argv[optind], std::ios::in);
+    if (qseq_file->fail()) {
+      std::cerr << "[qseq2fq] error: cannot open file '" << argv[1] << "'." << std::endl;
+      return 1;
+    }
   }
   
-  if (!qseq_file.is_open()) {
-    std::cerr << "[qseq2fq] error: cannot open file '" << argv[1] << "'." << std::endl;
-    return 1;
-  }
   
   std::string line;
   int total = 0, failed_filter = 0;
-  while (std::getline(qseq_file, line)) {
+  while (std::getline(*qseq_file, line)) {
     std::istringstream linestream(line);
     std::string name, seq, qual;
     int run_num, lane_num, tile_num, x, y, index, read_num, filter;
