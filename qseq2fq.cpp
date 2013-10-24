@@ -73,7 +73,6 @@ int main(int argc, char *argv[]) {
       
   std::istream *qseq_file;
   if (strcmp(argv[optind], "-") == 0) {
-    std::cerr << "using standard in" << std::endl;;
     qseq_file = &std::cin;
   } else {
     qseq_file = new std::ifstream(argv[optind], std::ios::in);
