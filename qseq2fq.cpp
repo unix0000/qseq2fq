@@ -23,7 +23,7 @@ void usage(void) {
 std::string sanger_qual(std::string &qual) {
   // Convert to Sanger quality
   std::string squal;
-  for (int i=0; i < qual.size(); i++) {
+  for (unsigned i=0; i < qual.size(); i++) {
     // a bit explicit: first to Phred, then to Sanger
     squal += (char)(((int) qual[i] - 64) + 33);
   }
@@ -33,7 +33,7 @@ std::string sanger_qual(std::string &qual) {
 std::string seq_remove_dots(std::string &seq) {
   // Replace '.' with N
   std::string fixed_seq;
-  for (int i=0; i < seq.size(); i++) {
+  for (unsigned i=0; i < seq.size(); i++) {
     if (seq[i] == '.')
       fixed_seq += 'N';
     else
